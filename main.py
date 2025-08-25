@@ -15,9 +15,10 @@ def main():
     config = load_config()
     logger = setup_logger()
 
+    print("Starting file organization...")
     mover = FileMover(config["source_folder"], config["destination_folders"], logger)
     mover.organize()
-
+    print("File organization complete.")
     logger.info("Setup complete")
 
 
