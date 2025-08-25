@@ -1,0 +1,9 @@
+{
+    "source_folder": "C:/Users/ruhet/Downloads",
+    "destination_folders": {
+        "images": "C:/Users/ruhet/Pictures",
+        "documents": "C:/Users/ruhet/Documents",
+        "videos": "C:/Users/ruhet/Videos",
+        "others": "C:/Users/ruhet/Others"
+    }
+}
