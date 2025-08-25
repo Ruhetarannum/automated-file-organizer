@@ -127,7 +127,8 @@ class FileMover:
         except Exception as exc:
             if self.logger:
                 self.logger.error(
-                    f"Failed to move '{source_path}' to '{destination_path}': {exc}"
+                    f"Failed to move '{source_path}' to '{destination_path}': {exc}",
+                    exc_info=True,
                 )
             raise
 
@@ -148,7 +149,9 @@ class FileMover:
                 self.move_file(file_path, category)
             except Exception as exc:
                 if self.logger:
-                    self.logger.error(f"Failed to organize '{file_path}': {exc}")
+                    self.logger.error(
+                        f"Failed to organize '{file_path}': {exc}", exc_info=True
+                    )
 
         if self.logger:
             self.logger.info("Organization complete")
