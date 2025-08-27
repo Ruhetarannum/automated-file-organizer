@@ -2,6 +2,8 @@ from pathlib import Path
 import logging
 import shutil
 
+logger = logging.getLogger(__name__)
+
 
 class FileMover:
     def __init__(self, source_folder, dest_folders: dict[str, str], logger=None):
@@ -105,6 +107,9 @@ class FileMover:
             category: Destination category (subfolder name). If None, derive from extension.
         """
         source_path = Path(file_path)
+        # If a bare filename is provided, resolve it under the configured source folder
+        if not source_path.is_absolute():
+            source_path = Path(self.source_folder) / source_path
 
         if not source_path.exists() or not source_path.is_file():
             if self.logger:
@@ -155,3 +160,55 @@ class FileMover:
 
         if self.logger:
             self.logger.info("Organization complete")
+
+
+def move_file(source: str, destination: str, overwrite: bool = False) -> None:
+    """
+    Move a file from source to destination.
+
+    Args:
+        source: Path to the source file.
+        destination: Full destination path (including filename).
+        overwrite: If True and destination exists, replace it. If False, raise FileExistsError.
+
+    Raises:
+        FileNotFoundError: If the source file does not exist.
+        FileExistsError: If the destination exists and overwrite is False.
+        Exception: Propagates exceptions from the underlying filesystem operations.
+    """
+    src_path = Path(source)
+    dest_path = Path(destination)
+
+    if not src_path.exists() or not src_path.is_file():
+        logger.error(f"Source file not found: {src_path}")
+        raise FileNotFoundError(f"Source file not found: {src_path}")
+
+    # Ensure parent directories exist
+    dest_parent = dest_path.parent
+    dest_parent.mkdir(parents=True, exist_ok=True)
+
+    if dest_path.exists():
+        if not overwrite:
+            logger.error(
+                f"Destination already exists and overwrite is False: {dest_path}"
+            )
+            raise FileExistsError(f"Destination already exists: {dest_path}")
+        # Overwrite behavior: remove existing file or directory
+        try:
+            if dest_path.is_dir():
+                shutil.rmtree(dest_path)
+            else:
+                dest_path.unlink()
+        except Exception as exc:
+            logger.error(
+                f"Failed to remove existing destination before overwrite: {dest_path}: {exc}",
+                exc_info=True,
+            )
+            raise
+
+    try:
+        shutil.move(str(src_path), str(dest_path))
+        logger.info(f"moved {src_path} -> {dest_path}")
+    except Exception as exc:
+        logger.error(f"Failed to move {src_path} -> {dest_path}: {exc}", exc_info=True)
+        raise

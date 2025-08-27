@@ -1,33 +1,25 @@
-import unittest
+import pytest
+import sys
 import os
 
 
 def run_all_tests():
     tests_dir = "tests"
-    loader = unittest.TestLoader()
 
-    # Discover all test files in 'tests' folder
-    for root, _, files in os.walk(tests_dir):
-        for file in files:
-            if file.startswith("test_") and file.endswith(".py"):
-                test_file_path = os.path.join(root, file)
-                module_name = os.path.splitext(test_file_path.replace(os.sep, "."))[0]
+    if not os.path.exists(tests_dir):
+        print(f"❌ Tests directory not found: {tests_dir}")
+        sys.exit(1)
 
-                print(f"\nRunning tests in: {test_file_path}")
+    print(f"\n🚀 Running all tests in: {tests_dir}\n")
+    # Run pytest with verbose output
+    exit_code = pytest.main(["-v", tests_dir])
 
-                try:
-                    tests = loader.loadTestsFromName(module_name)
-                    runner = unittest.TextTestRunner(verbosity=2)
-                    result = runner.run(tests)
-
-                    if not result.wasSuccessful():
-                        print(f"\n❌ Errors or failures in {test_file_path}")
-                    else:
-                        print(f"✅ All tests passed in {test_file_path}")
-                except Exception as e:
-                    print(f"\n⚠ Could not run tests in {test_file_path}")
-                    print(f"Error: {e}")
+    if exit_code == 0:
+        print("\n✅ All tests passed successfully!")
+    else:
+        print("\n❌ Some tests failed. Check output above.")
+    return exit_code
 
 
 if __name__ == "__main__":
-    run_all_tests()
+    sys.exit(run_all_tests())
