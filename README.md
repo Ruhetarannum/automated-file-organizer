@@ -55,15 +55,35 @@ Copy the path of the folder which you want to clean up/organize.
 
 Run with Docker, mounting your folder into the container:
 
-### Example: 
-**Windows (PowerShell):**
+### Example: (without using config file)
+**Windows (PowerShell):** 
+## Remember to change the 'C:\Users\YourName\Downloads\testfiles' to your path
 ```bash
 docker run --rm -v "C:\Users\YourName\Downloads\testfiles:/data" file-organizer:latest --source /data --verbose
 ```
 
 **macOS/Linux:**
+## Remember to change the '/Downloads/testfiles' to your path
 ```bash
 docker run --rm -v ~/Downloads/testfiles:/data file-organizer:latest --source /data --verbose
+```
+### Example: (using config file)
+**Windows (PowerShell):**
+## Remember to change the 'C:\Users\YourName\Downloads\testfiles' and 'C:\Users\YourName' to your path
+```bash
+docker run --rm `
+  -v "C:\Users\YourName\Downloads\testfiles:/data" `
+  -v "C:\Users\YourName\.fileorganizer.json:/config/config.json" `
+  file-organizer:latest --source /data --config /config/config.json --verbose
+```
+
+**macOS/Linux:**
+## Remember to change the '/Downloads/testfiles' to your path
+```bash
+docker run --rm \
+  -v ~/Downloads/testfiles:/data \
+  -v ~/.fileorganizer.json:/config/config.json \
+  file-organizer:latest --source /data --config /config/config.json --verbose
 ```
 
 ## 6. Check Results
