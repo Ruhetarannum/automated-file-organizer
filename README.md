@@ -57,7 +57,7 @@ Run with Docker, mounting your folder into the container:
 
 ### Example: (without using config file)
 **Windows (PowerShell):** 
-## Remember to change the 'C:\Users\YourName\Downloads\testfiles' to your path
+#### Remember to change the 'C:\Users\YourName\Downloads\testfiles' to your path
 ```bash
 docker run --rm -v "C:\Users\YourName\Downloads\testfiles:/data" file-organizer:latest --source /data --verbose
 ```
