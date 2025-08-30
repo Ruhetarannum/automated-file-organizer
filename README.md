@@ -63,13 +63,13 @@ docker run --rm -v "C:\Users\YourName\Downloads\testfiles:/data" file-organizer:
 ```
 
 **macOS/Linux:**
-## Remember to change the '/Downloads/testfiles' to your path
+#### Remember to change the '/Downloads/testfiles' to your path
 ```bash
 docker run --rm -v ~/Downloads/testfiles:/data file-organizer:latest --source /data --verbose
 ```
 ### Example: (using config file)
 **Windows (PowerShell):**
-## Remember to change the 'C:\Users\YourName\Downloads\testfiles' and 'C:\Users\YourName' to your path
+#### Remember to change the 'C:\Users\YourName\Downloads\testfiles' and 'C:\Users\YourName' to your path
 ```bash
 docker run --rm `
   -v "C:\Users\YourName\Downloads\testfiles:/data" `
@@ -78,7 +78,7 @@ docker run --rm `
 ```
 
 **macOS/Linux:**
-## Remember to change the '/Downloads/testfiles' to your path
+#### Remember to change the '/Downloads/testfiles' to your path
 ```bash
 docker run --rm \
   -v ~/Downloads/testfiles:/data \
