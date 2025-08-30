@@ -15,7 +15,7 @@ A Python-based tool for automatically organizing files into categorized folders 
 - **Overwrite Protection**: Configurable handling of existing files
 - **Comprehensive Logging**: Detailed operation tracking and error reporting
 - **Recursive Scanning**: Organize files in subdirectories automatically
-- **Cross-platform Support**: Works on Windows, macOS, and Linux
+- **Cross-platform Support**: Works on Windows, macOS, and Linux (via Docker)
 
 ## Built-in Categories
 
@@ -37,10 +37,61 @@ git clone https://github.com/yourusername/automated-file-organizer.git
 cd automated-file-organizer
 ```
 
-2. Install dependencies (if any):
+2. Install Docker
+Download and install Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/) .
+Verify installation:
 ```bash
-pip install -r requirements.txt
+docker --version
 ```
+
+3. Build the Docker Image
+```bash
+docker build -t file-organizer:latest .
+```
+4. Copy the path
+Copy the path of the folder which you want to clean up/organize.
+
+5. Run the Organizer
+Run with Docker, mounting your folder into the container:
+Example:(if you want to use a config file)
+Windows (PowerShell):
+```bash
+docker run --rm -v "C:\Users\YourName\Downloads\testfiles:/data" file-organizer:latest /data --verbose
+```
+macOS/Linux:
+```bash
+docker run --rm -v ~/Downloads/testfiles:/data file-organizer:latest /data --verbose
+```
+(if you don't want to use config file)
+Windows (PowerShell):
+```bash
+docker run --rm -v "C:\Users\YourName\Downloads\testfiles:/data" file-organizer:latest --source /data --verbose
+```
+macOS/Linux:
+```bash
+docker run --rm -v ~/Downloads/testfiles:/data file-organizer:latest --source /data --verbose
+```
+
+6. Check Results
+
+Your folder is now neatly organized:
+
+folder/
+├── Documents/
+│   └── report.pdf
+├── Images/
+│   └── photo.png
+├── Music/
+│   └── song.mp3
+├── Videos/
+│   └── movie.mp4
+├── Archives/
+│   └── random.zip
+└── Others/
+    └── unknown.xyz
+
+---
+
 
 ## Usage Examples
 
@@ -229,57 +280,19 @@ tests/test_file_mover.py::test_unknown_extension_returns_others PASSED
 ======================== 25 passed in 2.34s ========================
 ```
 
-## Project Structure
-
-```
+📂 Project Structure
 automated-file-organizer/
-├── organizer/
-│   ├── __init__.py
-│   └── file_mover.py          # Main organizer logic
-├── tests/
-│   ├── __init__.py
-│   ├── test_file_mover.py     # Core functionality tests
-│   └── test_config.py         # Configuration tests
-├── README.md                  # This file
-├── requirements.txt           # Python dependencies
-└── .fileorganizer.json       # Example configuration
-```
+├── organizer/              # Core logic
+│   └── file_mover.py
+├── tests/                  # Test suite
+├── Dockerfile              # Container setup
+├── .dockerignore           # Files excluded from Docker build
+├── requirements.txt        # Python dependencies
+└── README.md               # Documentation
 
-## File Organization Structure
-
-After running the organizer, your files will be organized like this:
-
-```
-Your Folder/
-├── documents/
-│   ├── report.pdf
-│   ├── spreadsheet.xlsx
-│   └── notes.txt
-├── images/
-│   ├── photo1.jpg
-│   ├── screenshot.png
-│   └── diagram.gif
-├── videos/
-│   ├── tutorial.mp4
-│   └── presentation.mov
-├── code/
-│   ├── script.py
-│   ├── website.html
-│   └── styles.css
-└── others/
-    ├── unknown.xyz
-    └── data.custom
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes and add tests
-4. Run the test suite: `python -m pytest tests/ -v`
-5. Commit your changes: `git commit -am 'Add feature'`
-6. Push to the branch: `git push origin feature-name`
-7. Submit a pull request
+🧑‍💻 Author
+Ruhe Tarannum 
+Python Developer Intern @ Soft Nexis Technologies
 
 ## License
 
@@ -294,10 +307,26 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Ensure the source directory exists
 - Verify logging output for error messages
 
-**Custom configuration not working:**
-- Ensure `.fileorganizer.json` is valid JSON
-- Check that the file is in the correct directory (current or parent)
-- Verify file extensions include the dot (e.g., `.txt` not `txt`)
+## 🔧 Custom Configuration
+
+By default, if no config file exists, the organizer will automatically generate a `.fileorganizer.json` file in your working directory on the first run.
+
+Example auto-generated config:
+
+```json
+{
+    "source_folder": "C:/Users/YourName/Downloads",
+    "destination_folders": {
+        "Documents": "C:/Users/YourName/Documents",
+        "Images": "C:/Users/YourName/Pictures",
+        "Videos": "C:/Users/YourName/Videos",
+        "Music": "C:/Users/YourName/Music",
+        "Archives": "C:/Users/YourName/Archives",
+        "Code": "C:/Users/YourName/Code",
+        "Others": "C:/Users/YourName/Others"
+    }
+}
+```
 
 **Permission errors:**
 - Run with appropriate permissions

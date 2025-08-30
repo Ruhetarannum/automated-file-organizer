@@ -1,5 +1,7 @@
-import pytest
 import logging
+
+import pytest
+
 from organizer.file_mover import FileMover, move_file
 
 
@@ -154,9 +156,7 @@ def test_move_file_permission_error_destination_not_writable(tmp_path, monkeypat
         move_file(str(src), str(dst))
 
 
-def test_move_file_retry_logic_attempts_retries_on_permission_error(
-    tmp_path, monkeypatch
-):
+def test_move_file_retry_logic_attempts_retries_on_permission_error(tmp_path, monkeypatch):
     """Test that retry logic is attempted by patching time.sleep and simulating PermissionError."""
     src = tmp_path / "source.txt"
     dst = tmp_path / "dest.txt"

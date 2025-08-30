@@ -1,6 +1,7 @@
-import pytest
-import sys
 import os
+import sys
+
+import pytest
 
 
 def run_all_tests():

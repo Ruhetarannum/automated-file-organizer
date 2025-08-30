@@ -19,14 +19,16 @@ Key test scenarios for user config file support:
 5. Empty or invalid configs gracefully fall back to built-in categories
 """
 
-import pytest
-import unittest
-import tempfile
-import shutil
 import os
+import shutil
+import tempfile
+import unittest
 from pathlib import Path
-from organizer.file_mover import FileMover, clear_config_cache
 from unittest import mock
+
+import pytest
+
+from organizer.file_mover import FileMover, clear_config_cache
 
 
 @pytest.fixture
@@ -110,15 +112,9 @@ def test_categorize_file_no_extension(mover):
 def test_categorize_file_config_file_extensions(mover):
     """Test that config file extensions work correctly."""
     # These extensions should be matched by the .fileorganizer.json config file
-    assert (
-        mover.categorize_file("data.xyz") == "custom"
-    )  # From Custom category in config
-    assert (
-        mover.categorize_file("file.custom") == "custom"
-    )  # From Custom category in config
-    assert (
-        mover.categorize_file("test.special") == "custom"
-    )  # From Custom category in config
+    assert mover.categorize_file("data.xyz") == "custom"  # From Custom category in config
+    assert mover.categorize_file("file.custom") == "custom"  # From Custom category in config
+    assert mover.categorize_file("test.special") == "custom"  # From Custom category in config
 
 
 def test_categorize_file_built_in_without_config(mover):
@@ -167,9 +163,7 @@ def test_categorize_file_custom_config_mapping(mover):
 
         # Test overriding built-in categories
         assert mover.categorize_file("document.docx") == "workfiles"  # Not 'documents'
-        assert (
-            mover.categorize_file("presentation.pptx") == "workfiles"
-        )  # Not 'documents'
+        assert mover.categorize_file("presentation.pptx") == "workfiles"  # Not 'documents'
 
         # Test media override
         assert mover.categorize_file("song.mp3") == "mediafiles"  # Not 'music'
@@ -192,9 +186,7 @@ def test_categorize_file_config_fallback_to_builtin(mover):
 
         # Test fallback to built-in for extensions not in config
         assert mover.categorize_file("song.mp3") == "music"  # Falls back to built-in
-        assert (
-            mover.categorize_file("archive.zip") == "archives"
-        )  # Falls back to built-in
+        assert mover.categorize_file("archive.zip") == "archives"  # Falls back to built-in
         assert mover.categorize_file("script.py") == "code"  # Falls back to built-in
         assert mover.categorize_file("photo.jpg") == "images"  # Falls back to built-in
 
@@ -252,9 +244,7 @@ def test_categorize_file_config_priority_over_builtin(mover):
         "Special": [".newext"],
     }
 
-    with mock.patch(
-        "organizer.file_mover.load_config", return_value=conflicting_config
-    ):
+    with mock.patch("organizer.file_mover.load_config", return_value=conflicting_config):
         clear_config_cache()
 
         # Config should take priority over built-ins
@@ -362,9 +352,7 @@ class TestFileMover(unittest.TestCase):
 
         # Create a dummy file in source
         self.sample_filename = "sample.txt"
-        Path(self.source_dir, self.sample_filename).write_text(
-            "hello", encoding="utf-8"
-        )
+        Path(self.source_dir, self.sample_filename).write_text("hello", encoding="utf-8")
 
     def tearDown(self):
         shutil.rmtree(self.source_dir, ignore_errors=True)

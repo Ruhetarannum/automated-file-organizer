@@ -1,8 +1,10 @@
-import sys
-import subprocess
 import json
-import pytest
+import subprocess
+import sys
 from pathlib import Path
+
+import pytest
+
 from organizer.cli import main as cli_main
 
 
@@ -132,15 +134,9 @@ def test_cli_moves_files_real(tmp_path):
 
     assert documents_folder.exists(), "Documents folder should be created"
     assert images_folder.exists(), "Images folder should be created"
-    assert (
-        documents_folder / "document.txt"
-    ).exists(), "Text file should be moved to documents"
-    assert (
-        documents_folder / "report.pdf"
-    ).exists(), "PDF file should be moved to documents"
-    assert (
-        images_folder / "photo.jpg"
-    ).exists(), "Image file should be moved to images"
+    assert (documents_folder / "document.txt").exists(), "Text file should be moved to documents"
+    assert (documents_folder / "report.pdf").exists(), "PDF file should be moved to documents"
+    assert (images_folder / "photo.jpg").exists(), "Image file should be moved to images"
 
     # Assert source files are gone
     assert not txt_file.exists(), "Source text file should be removed"
@@ -201,12 +197,8 @@ def test_cli_dry_run_shows_planned_actions(tmp_path):
     # Assert no category folders are created
     documents_folder = tmp_path / "documents"
     images_folder = tmp_path / "images"
-    assert (
-        not documents_folder.exists()
-    ), "Documents folder should not be created during dry-run"
-    assert (
-        not images_folder.exists()
-    ), "Images folder should not be created during dry-run"
+    assert not documents_folder.exists(), "Documents folder should not be created during dry-run"
+    assert not images_folder.exists(), "Images folder should not be created during dry-run"
 
 
 # 7. Integration test: CLI with --overwrite should replace existing destination files
@@ -250,9 +242,7 @@ def test_cli_overwrite_replaces_existing_files(tmp_path):
 
     # Assert destination file has new content
     assert (documents_folder / "document.txt").exists(), "Destination file should exist"
-    assert (
-        documents_folder / "document.txt"
-    ).read_text() == "New content", "Destination should have new content"
+    assert (documents_folder / "document.txt").read_text() == "New content", "Destination should have new content"
 
 
 # 8. Integration test: CLI with --overwrite and --dry-run should show overwrite plans
@@ -308,9 +298,7 @@ def test_cli_overwrite_dry_run_shows_overwrite_plans(tmp_path):
     # Assert files are NOT moved (still in original location)
     assert source_txt.exists(), "Source file should remain during dry-run"
     assert existing_txt.exists(), "Destination file should remain during dry-run"
-    assert (
-        existing_txt.read_text() == "Old content"
-    ), "Destination content should remain unchanged"
+    assert existing_txt.read_text() == "Old content", "Destination content should remain unchanged"
 
 
 # 9. Integration test: CLI handles permission errors gracefully
@@ -345,9 +333,7 @@ def test_cli_handles_permission_errors(tmp_path):
     )
 
     # CLI should complete (even with errors) but log the issues
-    assert (
-        result.returncode == 0
-    ), f"CLI should complete even with permission errors: {result.stderr}"
+    assert result.returncode == 0, f"CLI should complete even with permission errors: {result.stderr}"
 
     # File should remain in place due to permission error
     assert txt_file.exists(), "File should remain due to permission error"
@@ -461,25 +447,15 @@ def test_cli_dry_run_captures_would_move_messages(tmp_path):
     assert "Would move" in output, "Should show planned moves for files"
 
     # Verify files remain in place (dry-run should not move anything)
-    assert (
-        txt_file.exists()
-    ), f"Text file {txt_filename} should remain in source during dry-run"
-    assert (
-        jpg_file.exists()
-    ), f"Image file {jpg_filename} should remain in source during dry-run"
-    assert (
-        pdf_file.exists()
-    ), f"PDF file {pdf_filename} should remain in source during dry-run"
+    assert txt_file.exists(), f"Text file {txt_filename} should remain in source during dry-run"
+    assert jpg_file.exists(), f"Image file {jpg_filename} should remain in source during dry-run"
+    assert pdf_file.exists(), f"PDF file {pdf_filename} should remain in source during dry-run"
 
     # Verify no destination folders are created
     documents_folder = tmp_path / "documents"
     images_folder = tmp_path / "images"
-    assert (
-        not documents_folder.exists()
-    ), "Documents folder should not be created during dry-run"
-    assert (
-        not images_folder.exists()
-    ), "Images folder should not be created during dry-run"
+    assert not documents_folder.exists(), "Documents folder should not be created during dry-run"
+    assert not images_folder.exists(), "Images folder should not be created during dry-run"
 
     # Print captured output for debugging if needed
     if "Would move" not in output:
