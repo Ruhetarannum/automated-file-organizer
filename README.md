@@ -29,26 +29,28 @@ The organizer comes with predefined categories for common file types:
 - **Code**: `.py`, `.java`, `.cpp`, `.js`, `.ts`, `.html`, `.css`
 - **Others**: Any files that don't match the above categories
 
-## Installation
+# Installation
 
-1. Clone the repository:
+## 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/automated-file-organizer.git
 cd automated-file-organizer
 ```
 
-2. Install Docker
+## 2. Install Docker
+
 Download and install Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/) .
 Verify installation:
 ```bash
 docker --version
 ```
 
-3. Build the Docker Image
+## 3. Build the Docker Image
 ```bash
 docker build -t file-organizer:latest .
 ```
-4. Copy the path
+## 4. Copy the path
+
 Copy the path of the folder which you want to clean up/organize.
 
 ## 5. Run the Organizer
