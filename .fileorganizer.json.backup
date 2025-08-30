@@ -1,0 +1,9 @@
+{
+  "Images": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp"],
+  "Documents": [".pdf", ".doc", ".docx", ".txt", ".rtf", ".odt", ".xls", ".xlsx", ".ppt", ".pptx"],
+  "Videos": [".mp4", ".mov", ".avi", ".mkv", ".wmv", ".flv", ".webm"],
+  "Music": [".mp3", ".wav", ".flac", ".aac"],
+  "Archives": [".zip", ".rar", ".tar", ".gz", ".7z"],
+  "Code": [".py", ".java", ".cpp", ".js", ".ts", ".html", ".css"],
+  "Custom": [".xyz", ".custom", ".special"]
+}

@@ -44,6 +44,16 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Also print logs to console (in addition to file).",
     )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show which files would be moved without actually moving them.",
+    )
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Overwrite existing files at destination (default: False).",
+    )
 
     args = parser.parse_args(argv)
 
@@ -61,7 +71,7 @@ def main(argv: list[str] | None = None) -> int:
 
     mover = FileMover(source_folder=str(source), dest_folders=dests, logger=logger)
     logger.info("Starting organization…")
-    mover.organize()
+    mover.organize(dry_run=args.dry_run, overwrite=args.overwrite)
     logger.info("Organization complete.")
     return 0
 
