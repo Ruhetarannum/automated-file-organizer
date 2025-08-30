@@ -51,31 +51,39 @@ docker build -t file-organizer:latest .
 4. Copy the path
 Copy the path of the folder which you want to clean up/organize.
 
-5. Run the Organizer
+## 5. Run the Organizer
+
 Run with Docker, mounting your folder into the container:
-Example:(if you want to use a config file)
-Windows (PowerShell):
+
+### Example: Using a config file
+
+**Windows (PowerShell):**
 ```bash
 docker run --rm -v "C:\Users\YourName\Downloads\testfiles:/data" file-organizer:latest /data --verbose
 ```
-macOS/Linux:
+
+**macOS/Linux:**
 ```bash
 docker run --rm -v ~/Downloads/testfiles:/data file-organizer:latest /data --verbose
 ```
-(if you don't want to use config file)
-Windows (PowerShell):
+
+### Example: Without using config file
+
+**Windows (PowerShell):**
 ```bash
 docker run --rm -v "C:\Users\YourName\Downloads\testfiles:/data" file-organizer:latest --source /data --verbose
 ```
-macOS/Linux:
+
+**macOS/Linux:**
 ```bash
 docker run --rm -v ~/Downloads/testfiles:/data file-organizer:latest --source /data --verbose
 ```
 
-6. Check Results
+## 6. Check Results
 
 Your folder is now neatly organized:
 
+```
 folder/
 ├── Documents/
 │   └── report.pdf
@@ -89,8 +97,7 @@ folder/
 │   └── random.zip
 └── Others/
     └── unknown.xyz
-
----
+```
 
 
 ## Usage Examples
